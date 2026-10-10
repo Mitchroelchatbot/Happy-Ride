@@ -42,9 +42,9 @@ create table public.requests (
   pickup_location text not null check (pickup_location in ('airport', 'accommodation', 'office')),
   accommodation_address text,
   flight_number text,
-  name text not null,
-  email text not null,
-  phone text not null,
+  name text not null check (length(trim(name)) > 0),
+  email text not null check (length(trim(email)) > 0),
+  phone text not null check (length(trim(phone)) > 0),
   message text,
   extra_driver boolean not null default false,
   child_seats smallint not null default 0 check (child_seats between 0 and 3),
@@ -63,13 +63,16 @@ create table public.requests (
     check (pickup_location <> 'accommodation' or length(trim(coalesce(accommodation_address, ''))) > 0)
 );
 
+alter sequence public.request_reference_seq owned by public.requests.reference;
+revoke all on sequence public.request_reference_seq from anon, authenticated;
+
 create index requests_status_expires_idx on public.requests (status, expires_at);
 
 -- Bezette periodes ----------------------------------------------------------
 -- period is half-open [ophaaldag, inleverdag): de inleverdag is vrij voor de volgende klant.
 create table public.periods (
   id uuid primary key default gen_random_uuid(),
-  car_id uuid not null references public.cars (id) on delete restrict,
+  car_id uuid not null references public.cars (id) on delete cascade,
   period daterange not null,
   kind text not null check (kind in ('option', 'confirmed', 'blocked')),
   request_id uuid unique references public.requests (id) on delete restrict,

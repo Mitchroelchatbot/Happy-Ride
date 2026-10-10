@@ -17,7 +17,6 @@ beforeEach(async () => {
 const KINDS: Kind[] = ['option', 'confirmed', 'blocked'];
 const PAIRS = KINDS.flatMap((a) => KINDS.map((b) => [a, b] as [Kind, Kind]));
 const OVERLAP = /periods_no_overlap/;
-const CHECK = /violates check constraint/;
 
 async function countPeriods(): Promise<number> {
   const { rows } = await db.query<{ n: number }>('select count(*)::int as n from public.periods');
@@ -58,22 +57,35 @@ describe('periods: overlapcontrole', () => {
     const car = await insertCar(db);
     await expect(
       insertPeriod(db, { carId: car, from: '2030-06-01', to: '2030-06-01', kind: 'blocked', note: 'x' }),
-    ).rejects.toThrow(CHECK);
+    ).rejects.toThrow(/periods_period_check/);
   });
 
   it('eist een aanvraag bij optie/bevestigd en geen aanvraag bij een blokkade', async () => {
     const car = await insertCar(db);
     const req = await insertRequest(db, car, '2030-07-01', '2030-07-05');
     await expect(insertPeriod(db, { carId: car, from: '2030-07-01', to: '2030-07-05', kind: 'option' })).rejects.toThrow(
-      CHECK,
+      /periods_request_check/,
     );
     await expect(
       insertPeriod(db, { carId: car, from: '2030-07-01', to: '2030-07-05', kind: 'blocked', requestId: req }),
-    ).rejects.toThrow(CHECK);
+    ).rejects.toThrow(/periods_request_check/);
   });
 
   it('weigert een aanvraag waarvan de inleverdag niet na de ophaaldag ligt', async () => {
     const car = await insertCar(db);
-    await expect(insertRequest(db, car, '2030-07-05', '2030-07-05')).rejects.toThrow(CHECK);
+    await expect(insertRequest(db, car, '2030-07-05', '2030-07-05')).rejects.toThrow(/requests_dates_check/);
+  });
+
+  it('laat een auto met alleen een blokkade verwijderen (periode verdwijnt mee)', async () => {
+    const car = await insertCar(db);
+    await occupy(db, car, '2030-08-01', '2030-08-05', 'blocked');
+    await db.query('delete from public.cars where id = $1::uuid', [car]);
+    expect(await countPeriods()).toBe(0);
+  });
+
+  it('weigert het verwijderen van een auto met een aanvraag', async () => {
+    const car = await insertCar(db);
+    await insertRequest(db, car, '2030-08-01', '2030-08-05');
+    await expect(db.query('delete from public.cars where id = $1::uuid', [car])).rejects.toThrow(/requests_car_id_fkey/);
   });
 });
