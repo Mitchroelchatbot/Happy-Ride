@@ -7,9 +7,19 @@
 
 # Dependencies & builds
 node_modules/
+.next/
+out/
 dist/
 build/
 .cache/
+.netlify/
+*.tsbuildinfo
+next-env.d.ts
+
+# Tests
+coverage/
+test-results/
+playwright-report/
 
 # Logs
 *.log
