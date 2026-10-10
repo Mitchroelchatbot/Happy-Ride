@@ -1,0 +1,23 @@
+# Geheimen — nooit committen (openbare repo)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies & builds
+node_modules/
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
