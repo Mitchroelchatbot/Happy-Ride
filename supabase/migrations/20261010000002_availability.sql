@@ -17,7 +17,7 @@ returns table (car_id uuid, start_date date, end_date date)
 language sql
 stable
 security definer
-set search_path = public
+set search_path = ''
 as $$
   select p.car_id, lower(p.period), upper(p.period)
   from public.periods p

@@ -60,6 +60,18 @@ describe('get_availability()', () => {
     expect(await availability()).toEqual([{ car_id: car, start_date: d(-2), end_date: d(2) }]);
   });
 
+  it('laat een periode die vandaag eindigt weg', async () => {
+    const car = await insertCar(db);
+    await occupy(db, car, d(-3), d(0), 'confirmed');
+    expect(await availability()).toEqual([]);
+  });
+
+  it('toont een periode die vandaag begint', async () => {
+    const car = await insertCar(db);
+    await occupy(db, car, d(0), d(3), 'confirmed');
+    expect(await availability()).toEqual([{ car_id: car, start_date: d(0), end_date: d(3) }]);
+  });
+
   it('geeft geen persoonsgegevens terug', async () => {
     const car = await insertCar(db);
     await occupy(db, car, d(10), d(13), 'confirmed');

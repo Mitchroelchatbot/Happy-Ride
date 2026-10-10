@@ -34,4 +34,12 @@ describe('seed', () => {
       { key: 'extra_driver', price_per_day_cents: 500 },
     ]);
   });
+
+  it('is herhaalbaar: twee keer uitvoeren geeft nog steeds 4 auto’s en 2 extra’s', async () => {
+    await db.exec(readSeed());
+    const cars = await db.query<{ n: number }>('select count(*)::int as n from public.cars');
+    const extras = await db.query<{ n: number }>('select count(*)::int as n from public.extras');
+    expect(cars.rows[0].n).toBe(4);
+    expect(extras.rows[0].n).toBe(2);
+  });
 });
