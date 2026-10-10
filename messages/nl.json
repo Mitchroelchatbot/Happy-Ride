@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "title": "Happy Ride Car Rental — Autohuur op Curaçao",
+    "description": "Huur een auto op Curaçao bij Happy Ride. Zie direct welke auto's vrij zijn op jouw data, met prijzen in euro's. Gratis ophalen op de luchthaven."
+  },
+  "header": {
+    "logoAlt": "Happy Ride Car Rental",
+    "whatsapp": "WhatsApp",
+    "languages": "Taal"
+  },
+  "hero": {
+    "title": "Huur je auto op Curaçao",
+    "subtitle": "Kies je data en zie meteen welke auto's vrij zijn. Ophalen op de luchthaven is gratis.",
+    "pickup": "Ophalen",
+    "return": "Inleveren",
+    "showCars": "Bekijk auto's",
+    "days": "{count, plural, one {# dag} other {# dagen}}",
+    "invalid": {
+      "format": "Deze datum klopt niet. Kies een datum in de kalender.",
+      "past": "Kies een ophaaldatum vanaf vandaag.",
+      "order": "De inleverdatum moet na de ophaaldatum liggen.",
+      "tooShort": "De minimale huurperiode is {min} dagen."
+    }
+  },
+  "fleet": {
+    "title": "Onze auto's",
+    "chooseDatesHint": "Kies je data om te zien welke auto's vrij zijn.",
+    "loadError": "De beschikbaarheid kon niet geladen worden. Stuur ons een WhatsApp, dan kijken we het direct voor je na."
+  },
+  "car": {
+    "automatic": "Automaat",
+    "manual": "Schakel",
+    "seats": "{count} personen",
+    "luggage": "{count, plural, =0 {geen koffers} one {# koffer} other {# koffers}}",
+    "airco": "Airco",
+    "perDay": "per dag",
+    "total": "{price} totaal voor {days, plural, one {# dag} other {# dagen}}",
+    "available": "Beschikbaar",
+    "busy": "Bezet op deze data",
+    "request": "Aanvragen",
+    "chooseDates": "Kies je data",
+    "showAvailability": "Beschikbaarheid",
+    "hideAvailability": "Verberg kalender",
+    "example": "voorbeeld",
+    "photoAlt": "Foto van de {name}"
+  },
+  "calendar": {
+    "previous": "Vorige maand",
+    "next": "Volgende maand",
+    "free": "Vrij",
+    "busy": "Bezet",
+    "selected": "Jouw data"
+  },
+  "conditions": {
+    "title": "Voorwaarden in het kort",
+    "items": {
+      "age": "Minimumleeftijd [23] jaar, rijbewijs minimaal [2] jaar in bezit.",
+      "minDays": "Minimale huurduur [3] dagen.",
+      "deposit": "Borg [€ 400], die je terugkrijgt als je de auto zonder schade inlevert.",
+      "km": "Onbeperkt aantal kilometers.",
+      "insurance": "Basisverzekering inbegrepen, eigen risico [€ 500].",
+      "airport": "Gratis ophalen en inleveren op de luchthaven.",
+      "fuel": "Tank vol ophalen, vol inleveren.",
+      "extras": "Extra bestuurder [€ 5] per dag, kinderzitje [€ 5] per dag.",
+      "cancel": "Gratis annuleren tot [48] uur voor het ophalen."
+    }
+  },
+  "faq": {
+    "title": "Veelgestelde vragen",
+    "items": {
+      "q1": {
+        "q": "Is mijn aanvraag meteen een reservering?",
+        "a": "Nee. Je doet eerst een aanvraag. Happy Ride reageert binnen [24] uur met een bevestiging en de betaalopties. Pas daarna is de auto voor je gereserveerd."
+      },
+      "q2": {
+        "q": "Hoe betaal ik?",
+        "a": "Je betaalt niet via de website. Na je aanvraag ontvang je van ons de betaalopties."
+      },
+      "q3": {
+        "q": "Kan ik de auto op de luchthaven ophalen?",
+        "a": "Ja, ophalen en inleveren op de luchthaven van Curaçao is gratis. Geef je vluchtnummer door, dan houden we rekening met je aankomsttijd."
+      },
+      "q4": {
+        "q": "Welk rijbewijs heb ik nodig?",
+        "a": "Een geldig rijbewijs dat je minimaal [2] jaar hebt. Je moet minimaal [23] jaar oud zijn."
+      },
+      "q5": {
+        "q": "Wat als mijn plannen veranderen?",
+        "a": "Annuleren is gratis tot [48] uur voor het ophalen. Stuur ons een WhatsApp of e-mail."
+      },
+      "q6": {
+        "q": "Aan welke kant van de weg rijd je op Curaçao?",
+        "a": "Rechts, net als in Nederland en de rest van het Europese vasteland."
+      }
+    }
+  },
+  "footer": {
+    "contact": "Contact",
+    "tagline": "Car Rental",
+    "rights": "© {year} Happy Ride Car Rental"
+  },
+  "whatsapp": {
+    "general": "Hallo Happy Ride, ik heb een vraag over het huren van een auto.",
+    "request": "Hallo Happy Ride, ik wil graag de {car} aanvragen van {from} tot {to}."
+  }
+}
