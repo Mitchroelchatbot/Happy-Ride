@@ -1,8 +1,27 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
+import { Suspense } from 'react';
+import { Fleet, FleetSkeleton } from '@/components/Fleet';
+import { Header } from '@/components/Header';
+import { Hero } from '@/components/Hero';
+import { getVisibleCars } from '@/lib/data/cars';
+
+// Vangnet: elk uur opnieuw opbouwen. De beheerpagina (stap 3) ververst direct via revalidatePath.
+export const revalidate = 3600;
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations('hero');
-  return <h1 className="p-8 text-3xl font-extrabold">{t('title')}</h1>;
+  const cars = await getVisibleCars();
+
+  return (
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <Suspense fallback={<FleetSkeleton />}>
+          <Fleet cars={cars} />
+        </Suspense>
+      </main>
+    </>
+  );
 }
