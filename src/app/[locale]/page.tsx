@@ -2,7 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { Conditions } from '@/components/Conditions';
 import { Faq } from '@/components/Faq';
-import { Fleet, FleetSkeleton } from '@/components/Fleet';
+import { Fleet, FleetView } from '@/components/Fleet';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
@@ -21,7 +21,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <Header />
       <main>
         <Hero />
-        <Suspense fallback={<FleetSkeleton />}>
+        <Suspense
+          fallback={<FleetView cars={cars} selection={{ state: 'none' }} availability={null} loadError={false} />}
+        >
           <Fleet cars={cars} />
         </Suspense>
         <Conditions />

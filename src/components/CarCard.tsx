@@ -26,8 +26,9 @@ export function CarCard({ car, status, selection, busy }: Props) {
 
   return (
     <article
-      className={`flex h-full flex-col overflow-hidden rounded-2xl border border-navy-100 bg-white shadow-sm ${
-        isBusy ? 'opacity-60 grayscale' : ''
+      aria-labelledby={`car-${car.id}`}
+      className={`flex h-full flex-col overflow-hidden rounded-2xl border border-navy-100 shadow-sm ${
+        isBusy ? 'bg-navy-100/40' : 'bg-white'
       }`}
     >
       <div className="relative aspect-[16/10] bg-navy-100">
@@ -36,7 +37,7 @@ export function CarCard({ car, status, selection, busy }: Props) {
           alt={t('photoAlt', { name: car.name })}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
+          className={`object-cover ${isBusy ? 'opacity-60 grayscale' : ''}`}
           unoptimized={!car.photoUrl}
         />
         {(car.isPlaceholderPhoto || !car.photoUrl) && (
@@ -57,7 +58,7 @@ export function CarCard({ car, status, selection, busy }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="text-xl font-extrabold">{car.name}</h3>
+        <h3 id={`car-${car.id}`} className="text-xl font-extrabold">{car.name}</h3>
         <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-navy-700">
           <li className="flex items-center gap-1.5">
             <Cog aria-hidden className="size-4" />
@@ -101,19 +102,22 @@ export function CarCard({ car, status, selection, busy }: Props) {
               )}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${t('request')} ${car.name}`}
               className="btn-primary"
             >
               {t('request')}
             </a>
           )}
           {!valid && (
-            <a href="#top" className="btn-secondary">
+            <a href="#top" aria-label={`${t('chooseDates')} ${car.name}`} className="btn-secondary">
               {t('chooseDates')}
             </a>
           )}
           <button
             type="button"
             aria-expanded={showCalendar}
+            aria-controls={`calendar-${car.id}`}
+            aria-label={`${showCalendar ? t('hideAvailability') : t('showAvailability')} ${car.name}`}
             onClick={() => setShowCalendar((v) => !v)}
             className="btn-ghost"
           >
@@ -122,7 +126,7 @@ export function CarCard({ car, status, selection, busy }: Props) {
         </div>
 
         {showCalendar && (
-          <div className="mt-3">
+          <div id={`calendar-${car.id}`} className="mt-3">
             <AvailabilityCalendar busy={busy} selection={selection} />
           </div>
         )}

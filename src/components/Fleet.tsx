@@ -5,12 +5,11 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { carStatus, sortByAvailability, type AvailabilityMap } from '@/lib/availability';
 import { curacaoToday } from '@/lib/dates';
-import { parseSelection } from '@/lib/selection';
+import { parseSelection, type Selection } from '@/lib/selection';
 import type { Car } from '@/lib/types';
 import { CarCard } from './CarCard';
 
 export function Fleet({ cars }: { cars: Car[] }) {
-  const t = useTranslations('fleet');
   const searchParams = useSearchParams();
   const selection = parseSelection(searchParams.get('van'), searchParams.get('tot'), curacaoToday());
 
@@ -35,6 +34,19 @@ export function Fleet({ cars }: { cars: Car[] }) {
     };
   }, []);
 
+  return <FleetView cars={cars} selection={selection} availability={availability} loadError={loadError} />;
+}
+
+type ViewProps = {
+  cars: Car[];
+  selection: Selection;
+  availability: AvailabilityMap | null;
+  loadError: boolean;
+};
+
+// Alleen weergave. Ook de Suspense-fallback in page.tsx, zodat auto's en prijzen al in de statische HTML staan.
+export function FleetView({ cars, selection, availability, loadError }: ViewProps) {
+  const t = useTranslations('fleet');
   const busyOf = (car: Car) => availability?.[car.id] ?? [];
   const statusOf = (car: Car) => carStatus(busyOf(car), selection, availability !== null);
 
@@ -55,15 +67,5 @@ export function Fleet({ cars }: { cars: Car[] }) {
         ))}
       </ul>
     </section>
-  );
-}
-
-export function FleetSkeleton() {
-  return (
-    <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:grid-cols-2 lg:grid-cols-3">
-      {[0, 1, 2].map((i) => (
-        <div key={i} className="h-96 animate-pulse rounded-2xl bg-navy-100" />
-      ))}
-    </div>
   );
 }
