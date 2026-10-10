@@ -11,6 +11,8 @@ Website voor Happy Ride Car Rental op Curaçao: vlootoverzicht met beschikbaarhe
 2. Kopieer `.env.example` naar `.env.local` en vul de Supabase-gegevens in.
 3. `npm run dev` → http://localhost:3000
 
+Op Netlify moeten `NEXT_PUBLIC_SUPABASE_URL` en `NEXT_PUBLIC_SUPABASE_ANON_KEY` als environment variables staan; de build haalt de auto's uit Supabase.
+
 ## Database
 
 Migraties staan in `supabase/migrations/`, de voorbeeldvloot in `supabase/seed.sql`.

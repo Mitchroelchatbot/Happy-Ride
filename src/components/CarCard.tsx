@@ -12,7 +12,7 @@ import type { Car } from '@/lib/types';
 import { whatsappUrl } from '@/lib/whatsapp';
 import { AvailabilityCalendar } from './AvailabilityCalendar';
 
-type Props = { car: Car; status: CarStatus; selection: Selection; busy: BusyRange[] };
+type Props = { car: Car; status: CarStatus; selection: Selection; busy: BusyRange[] | null };
 
 export function CarCard({ car, status, selection, busy }: Props) {
   const t = useTranslations('car');
@@ -127,7 +127,11 @@ export function CarCard({ car, status, selection, busy }: Props) {
 
         {showCalendar && (
           <div id={`calendar-${car.id}`} className="mt-3">
-            <AvailabilityCalendar busy={busy} selection={selection} />
+            <AvailabilityCalendar
+              key={selection.state === 'valid' ? selection.from : 'none'}
+              busy={busy}
+              selection={selection}
+            />
           </div>
         )}
       </div>

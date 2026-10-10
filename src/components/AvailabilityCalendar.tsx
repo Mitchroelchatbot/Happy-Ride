@@ -9,7 +9,8 @@ import { addMonths, curacaoToday, monthGrid, monthOf, type ISOMonth } from '@/li
 import { formatDate } from '@/lib/format';
 import type { Selection } from '@/lib/selection';
 
-type Props = { busy: BusyRange[]; selection: Selection };
+// busy = null: beschikbaarheid nog niet geladen (of laden mislukt), dan kleuren we geen dagen vrij of bezet.
+type Props = { busy: BusyRange[] | null; selection: Selection };
 
 export function AvailabilityCalendar({ busy, selection }: Props) {
   const t = useTranslations('calendar');
@@ -56,6 +57,8 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
         </button>
       </div>
 
+      {busy === null && <p className="mt-2 text-center text-sm text-navy-700">{t('unknown')}</p>}
+
       <div aria-hidden className="mt-2 grid grid-cols-7 gap-1 text-center text-xs font-bold text-navy-700">
         {weekdays.map((d, i) => (
           <span key={i}>{d}</span>
@@ -66,8 +69,8 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
         {monthGrid(month).map((day, i) => {
           if (!day) return <li key={`leeg-${i}`} aria-hidden />;
           const past = day < today;
-          const busyDay = !past && isDayBusy(busy, day);
-          const state = past ? t('past') : busyDay ? t('busy') : t('free');
+          const busyDay = !past && busy !== null && isDayBusy(busy, day);
+          const state = past ? t('past') : busy === null ? null : busyDay ? t('busy') : t('free');
           return (
             <li
               key={day}
@@ -75,16 +78,18 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
                 'grid h-9 place-items-center rounded-lg',
                 past
                   ? 'text-gray-300'
-                  : busyDay
-                    ? 'bg-gray-200 text-gray-600 line-through'
-                    : 'bg-lagoon-100 font-semibold text-lagoon-800',
+                  : busy === null
+                    ? 'text-navy-700'
+                    : busyDay
+                      ? 'bg-gray-200 text-gray-600 line-through'
+                      : 'bg-lagoon-100 font-semibold text-lagoon-800',
                 inSelection(day) ? 'ring-2 ring-navy-900' : '',
               ].join(' ')}
             >
               <span aria-hidden>{Number(day.slice(8))}</span>
               <span className="sr-only">
                 {formatDate(day, locale)}
-                {`: ${state}`}
+                {state ? `: ${state}` : ''}
                 {inSelection(day) ? `, ${t('selected')}` : ''}
               </span>
             </li>
@@ -93,14 +98,18 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
       </ol>
 
       <ul className="mt-3 flex flex-wrap gap-4 text-xs text-navy-700">
-        <li className="flex items-center gap-1.5">
-          <span aria-hidden className="size-3 rounded bg-lagoon-100" />
-          {t('free')}
-        </li>
-        <li className="flex items-center gap-1.5">
-          <span aria-hidden className="size-3 rounded bg-gray-200" />
-          {t('busy')}
-        </li>
+        {busy !== null && (
+          <>
+            <li className="flex items-center gap-1.5">
+              <span aria-hidden className="size-3 rounded bg-lagoon-100" />
+              {t('free')}
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span aria-hidden className="size-3 rounded bg-gray-200" />
+              {t('busy')}
+            </li>
+          </>
+        )}
         {selection.state === 'valid' && (
           <li className="flex items-center gap-1.5">
             <span aria-hidden className="size-3 rounded ring-2 ring-navy-900" />

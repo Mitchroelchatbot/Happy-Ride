@@ -50,7 +50,8 @@
     "free": "Vrij",
     "busy": "Bezet",
     "selected": "Jouw data",
-    "past": "Verstreken"
+    "past": "Verstreken",
+    "unknown": "Beschikbaarheid nog niet bekend."
   },
   "conditions": {
     "title": "Voorwaarden in het kort",

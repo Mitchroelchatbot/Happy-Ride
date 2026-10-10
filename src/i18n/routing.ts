@@ -5,4 +5,6 @@ export const routing = defineRouting({
   locales: ['nl'],
   defaultLocale: 'nl',
   localePrefix: 'always',
+  // Geen NEXT_LOCALE-cookie zolang er één taal is: de site blijft cookievrij.
+  localeCookie: false,
 });

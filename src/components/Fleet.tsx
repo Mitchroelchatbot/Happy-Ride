@@ -47,8 +47,9 @@ type ViewProps = {
 // Alleen weergave. Ook de Suspense-fallback in page.tsx, zodat auto's en prijzen al in de statische HTML staan.
 export function FleetView({ cars, selection, availability, loadError }: ViewProps) {
   const t = useTranslations('fleet');
-  const busyOf = (car: Car) => availability?.[car.id] ?? [];
-  const statusOf = (car: Car) => carStatus(busyOf(car), selection, availability !== null);
+  // null = nog niet geladen (of laden mislukt): de kalender kleurt dan geen dagen.
+  const busyOf = (car: Car) => availability?.[car.id] ?? (availability ? [] : null);
+  const statusOf = (car: Car) => carStatus(busyOf(car) ?? [], selection, availability !== null);
 
   return (
     <section id="vloot" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-10">
