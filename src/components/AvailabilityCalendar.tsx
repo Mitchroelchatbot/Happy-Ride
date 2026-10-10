@@ -38,7 +38,7 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
           onClick={() => setMonth(addMonths(month, -1))}
           disabled={month <= minMonth}
           aria-label={t('previous')}
-          className="grid size-11 place-items-center rounded-full hover:bg-navy-100 disabled:opacity-30"
+          className="grid size-11 place-items-center rounded-full enabled:hover:bg-navy-100 disabled:opacity-30"
         >
           <ChevronLeft aria-hidden className="size-5" />
         </button>
@@ -50,7 +50,7 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
           onClick={() => setMonth(addMonths(month, 1))}
           disabled={month >= maxMonth}
           aria-label={t('next')}
-          className="grid size-11 place-items-center rounded-full hover:bg-navy-100 disabled:opacity-30"
+          className="grid size-11 place-items-center rounded-full enabled:hover:bg-navy-100 disabled:opacity-30"
         >
           <ChevronRight aria-hidden className="size-5" />
         </button>
@@ -67,7 +67,7 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
           if (!day) return <li key={`leeg-${i}`} aria-hidden />;
           const past = day < today;
           const busyDay = !past && isDayBusy(busy, day);
-          const state = past ? '' : busyDay ? t('busy') : t('free');
+          const state = past ? t('past') : busyDay ? t('busy') : t('free');
           return (
             <li
               key={day}
@@ -76,7 +76,7 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
                 past
                   ? 'text-gray-300'
                   : busyDay
-                    ? 'bg-gray-200 text-gray-500 line-through'
+                    ? 'bg-gray-200 text-gray-600 line-through'
                     : 'bg-lagoon-100 font-semibold text-lagoon-800',
                 inSelection(day) ? 'ring-2 ring-navy-900' : '',
               ].join(' ')}
@@ -84,7 +84,8 @@ export function AvailabilityCalendar({ busy, selection }: Props) {
               <span aria-hidden>{Number(day.slice(8))}</span>
               <span className="sr-only">
                 {formatDate(day, locale)}
-                {state ? `: ${state}` : ''}
+                {`: ${state}`}
+                {inSelection(day) ? `, ${t('selected')}` : ''}
               </span>
             </li>
           );

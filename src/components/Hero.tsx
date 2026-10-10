@@ -11,7 +11,7 @@ export async function Hero() {
         <h1 className="max-w-2xl text-3xl font-extrabold leading-tight sm:text-5xl">{t('title')}</h1>
         <p className="mt-3 max-w-xl text-lg text-navy-100">{t('subtitle')}</p>
         <div className="mt-6">
-          <Suspense fallback={<div className="h-40 rounded-2xl bg-white/10" />}>
+          <Suspense fallback={<div className="h-72 rounded-2xl bg-white/10 sm:h-36" />}>
             <DateRangePicker />
           </Suspense>
         </div>

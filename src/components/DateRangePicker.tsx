@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { RULES } from '@/config';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { addDays, curacaoToday, daysBetween, isISODate } from '@/lib/dates';
@@ -14,11 +15,25 @@ export function DateRangePicker() {
   const searchParams = useSearchParams();
 
   const today = curacaoToday();
-  const from = searchParams.get('van') ?? '';
-  const to = searchParams.get('tot') ?? '';
+  const urlFrom = searchParams.get('van') ?? '';
+  const urlTo = searchParams.get('tot') ?? '';
+
+  // Lokale state: de velden volgen direct wat de gebruiker typt, ook terwijl de navigatie nog loopt.
+  const [dates, setDates] = useState({ van: urlFrom, tot: urlTo });
+  const [seenUrl, setSeenUrl] = useState({ van: urlFrom, tot: urlTo });
+  // Verandert de URL van buiten (terugknop, taalwissel), neem die waarden dan over.
+  if (seenUrl.van !== urlFrom || seenUrl.tot !== urlTo) {
+    setSeenUrl({ van: urlFrom, tot: urlTo });
+    setDates({ van: urlFrom, tot: urlTo });
+  }
+  const { van: from, tot: to } = dates;
   const selection = parseSelection(from || null, to || null, today);
 
   function update(next: { van: string; tot: string }) {
+    setDates(next);
+    // Tussenwaarden tijdens het typen (bijv. jaar 0002) gaan niet naar de URL.
+    const complete = (v: string) => v === '' || isISODate(v);
+    if (!complete(next.van) || !complete(next.tot)) return;
     const query = Object.fromEntries(searchParams.entries());
     for (const [key, value] of Object.entries(next)) {
       if (value) query[key] = value;
@@ -67,7 +82,7 @@ export function DateRangePicker() {
       </div>
       <p
         aria-live="polite"
-        className={`mt-3 min-h-6 text-sm font-semibold ${selection.state === 'invalid' ? 'text-sun-600' : 'text-navy-700'}`}
+        className={`mt-3 min-h-6 text-sm font-semibold ${selection.state === 'invalid' ? 'text-sun-800' : 'text-navy-700'}`}
       >
         {message}
       </p>
