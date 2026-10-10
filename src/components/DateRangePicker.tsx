@@ -31,8 +31,8 @@ export function DateRangePicker() {
 
   function update(next: { van: string; tot: string }) {
     setDates(next);
-    // Tussenwaarden tijdens het typen (bijv. jaar 0002) gaan niet naar de URL.
-    const complete = (v: string) => v === '' || isISODate(v);
+    // Alleen lege of geldige datums vanaf vandaag gaan naar de URL; tussenwaarden tijdens het typen (bijv. jaar 0002) en verleden blijven lokaal.
+    const complete = (v: string) => v === '' || (isISODate(v) && v >= today);
     if (!complete(next.van) || !complete(next.tot)) return;
     const query = Object.fromEntries(searchParams.entries());
     for (const [key, value] of Object.entries(next)) {
