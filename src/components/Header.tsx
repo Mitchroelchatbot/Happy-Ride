@@ -12,7 +12,7 @@ export async function Header() {
     <header className="sticky top-0 z-40 border-b border-navy-100 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-18 max-w-6xl items-center justify-between gap-3 px-4">
         <a href="#top" className="flex items-center">
-          <Image src="/logo.png" alt={t('logoAlt')} width={64} height={64} priority className="size-16 object-contain" />
+          <Image src="/logo.png" alt={t('logoAlt')} width={64} height={64} preload className="size-16 object-contain" />
         </a>
         <div className="flex items-center gap-2">
           <Suspense fallback={null}>

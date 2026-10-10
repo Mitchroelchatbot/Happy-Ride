@@ -117,7 +117,7 @@ export function CarCard({ car, status, selection, busy }: Props) {
             type="button"
             aria-expanded={showCalendar}
             aria-controls={`calendar-${car.id}`}
-            aria-label={`${showCalendar ? t('hideAvailability') : t('showAvailability')} ${car.name}`}
+            aria-label={`${t('showAvailability')} ${car.name}`}
             onClick={() => setShowCalendar((v) => !v)}
             className="btn-ghost"
           >

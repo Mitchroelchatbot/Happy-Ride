@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { formatDate, formatEuro } from '@/lib/format';
 
-const plain = (s: string) => s.replace(/ | /g, ' ');
+const plain = (s: string) => s.replace(/\u00a0|\u202f/g, ' ');
 
 describe('formatEuro', () => {
   it('laat ,00 weg bij hele euro’s', () => {

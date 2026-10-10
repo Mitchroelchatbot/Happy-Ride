@@ -26,14 +26,14 @@ export async function Footer() {
                 href={whatsappUrl(tw('general'))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex min-h-11 items-center gap-2 hover:text-white"
+                className="flex min-h-11 items-center gap-2 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 <MessageCircle aria-hidden className="size-5" />
                 WhatsApp
               </a>
             </li>
             <li>
-              <a href={`mailto:${CONTACT.email}`} className="flex min-h-11 items-center gap-2 hover:text-white">
+              <a href={`mailto:${CONTACT.email}`} className="flex min-h-11 items-center gap-2 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
                 <Mail aria-hidden className="size-5" />
                 {CONTACT.email}
               </a>
