@@ -4,3 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Next.js-runtime van Netlify expliciet vastleggen (proxy, ISR en API-routes als functions).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
